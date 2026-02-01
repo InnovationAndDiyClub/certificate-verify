@@ -1,17 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Certificate Verification</title>
-</head>
-<body>
-  <h2>Certificate Verification</h2>
-  <div id="result">Verifying...</div>
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const enroll = params.get("enroll");
 
-  <script>
-    const params = new URLSearchParams(window.location.search);
-    const enroll = params.get("enroll");
-
-    fetch("https://script.google.com/macros/s/AKfycbzt1haymnRK3IW1RCqPs60oo4eobQdwI-rC4rTMSVgQ-vxpCl9-td1MVvZ7arK09eut/exec?enroll=" + enroll)
+  if (!enroll) {
+    document.getElementById("result").innerHTML = "❌ Enrollment missing in QR";
+  } else {
+    fetch("https://script.google.com/macros/s/AKfycbzYPMYuBJuIF4AtxgGDA57DHnppSSxK42QDVeeli8kf0Qa9XI-LVxcKgxFk5FjeJ-HV/exec?enroll=" + enroll)
       .then(res => res.json())
       .then(data => {
         if (data.status === "VALID") {
@@ -25,7 +19,9 @@
         } else {
           document.getElementById("result").innerHTML = "❌ Invalid Certificate";
         }
+      })
+      .catch(() => {
+        document.getElementById("result").innerHTML = "❌ Verification failed";
       });
-  </script>
-</body>
-</html>
+  }
+</script>
