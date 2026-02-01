@@ -8,10 +8,10 @@
   <div id="result">Verifying...</div>
 
   <script>
-    const urlParams = new URLSearchParams(window.location.search);
-    const certId = urlParams.get('cert');
+    const params = new URLSearchParams(window.location.search);
+    const enroll = params.get("enroll");
 
-    fetch("https://script.google.com/macros/s/ABC123/exec?cert=" + certId)
+    fetch("https://script.google.com/macros/s/AKfycbzt1haymnRK3IW1RCqPs60oo4eobQdwI-rC4rTMSVgQ-vxpCl9-td1MVvZ7arK09eut/exec?enroll=" + enroll)
       .then(res => res.json())
       .then(data => {
         if (data.status === "VALID") {
