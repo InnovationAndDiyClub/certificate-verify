@@ -43,42 +43,42 @@
     <div id="result">⏳ Verifying…</div>
   </div>
 
-  <script>
-    const params = new URLSearchParams(window.location.search);
-    const enroll = params.get("enroll");
-    const resultEl = document.getElementById("result");
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const ref = params.get("ref");
+  const resultEl = document.getElementById("result");
 
-    if (!enroll) {
-      resultEl.innerHTML = "❌ Enrollment number missing in QR code.";
-    } else {
-      const API_URL =
-        "https://script.google.com/macros/s/AKfycbxnYyfj4vM5aOQdiIi2RtyFETzmQn6Kta8C3stgN6EWhUefTFjz9ixWg5X4sywT5wnG/exec?enroll=" +
-        encodeURIComponent(enroll.trim());
+  if (!ref) {
+    resultEl.innerHTML = "❌ Reference number missing in QR code.";
+  } else {
+    const API_URL =
+      "https://script.google.com/macros/s/AKfycbyXHJMdYUDDxDw5Ua2SOh5qU7S8TWUDphQruiziebESM-SSrc1y-yHzmJV88gvALSaa/exec?ref=" +
+      encodeURIComponent(ref.trim());
 
-      fetch(API_URL)
-        .then(res => {
-          if (!res.ok) throw new Error("Network error");
-          return res.json();
-        })
-        .then(data => {
-          if (data.status === "VALID") {
-            resultEl.innerHTML = `
-              ✅ <b>Certificate Verified</b><br><br>
-              <b>Name:</b> ${data.name}<br>
-              <b>Enrollment:</b> ${data.enrollment}<br>
-              <b>Branch:</b> ${data.branch}<br>
-              <b>Year:</b> ${data.year}
-            `;
-          } else if (data.status === "INVALID") {
-            resultEl.innerHTML = "❌ Invalid Certificate";
-          } else {
-            resultEl.innerHTML = "❌ Verification error";
-          }
-        })
-        .catch(() => {
-          resultEl.innerHTML = "❌ Unable to connect to verification server";
-        });
-    }
-  </script>
+    fetch(API_URL)
+      .then(res => {
+        if (!res.ok) throw new Error("Network error");
+        return res.json();
+      })
+      .then(data => {
+        if (data.status === "VALID") {
+          resultEl.innerHTML = `
+            ✅ <b>Certificate Verified</b><br><br>
+            <b>Reference No:</b> ${data.ref}<br>
+            <b>Name:</b> ${data.name}<br>
+            <b>Enrollment:</b> ${data.enrollment}<br>
+            <b>Branch:</b> ${data.branch}<br>
+            <b>Year:</b> ${data.year}
+          `;
+        } else {
+          resultEl.innerHTML = "❌ Invalid Certificate";
+        }
+      })
+      .catch(() => {
+        resultEl.innerHTML = "❌ Verification failed";
+      });
+  }
+</script>
+
 </body>
 </html>
