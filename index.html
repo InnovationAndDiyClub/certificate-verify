@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Certificate Verification</title>
+</head>
+<body>
+  <h2>Certificate Verification</h2>
+  <div id="result">Verifying...</div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const certId = urlParams.get('cert');
+
+    fetch("https://script.google.com/macros/s/ABC123/exec?cert=" + certId)
+      .then(res => res.json())
+      .then(data => {
+        if (data.status === "VALID") {
+          document.getElementById("result").innerHTML = `
+            ✅ <b>Certificate Verified</b><br><br>
+            Name: ${data.name}<br>
+            Enrollment: ${data.enrollment}<br>
+            Branch: ${data.branch}<br>
+            Year: ${data.year}
+          `;
+        } else {
+          document.getElementById("result").innerHTML = "❌ Invalid Certificate";
+        }
+      });
+  </script>
+</body>
+</html>
