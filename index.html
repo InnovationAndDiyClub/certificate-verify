@@ -46,9 +46,13 @@
 <script>
   const params = new URLSearchParams(window.location.search);
   const ref = params.get("ref");
+  const id = params.get("id");
   const resultEl = document.getElementById("result");
 
-  if (!ref) {
+  if (id) {
+    const target = "certificate-verify.html?id=" + encodeURIComponent(id.trim());
+    window.location.replace(target);
+  } else if (!ref) {
     resultEl.innerHTML = "❌ Reference number missing in QR code.";
   } else {
     const API_URL =

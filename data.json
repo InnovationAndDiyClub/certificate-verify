@@ -1,0 +1,20 @@
+[
+  {
+    "id": "MITS-HACK-001",
+    "name": "Aryan Ojha",
+    "email": "aryan@email.com",
+    "event": "Hackathon 2026",
+    "date": "2026-03-29",
+    "role": "Participant",
+    "issuedBy": "MITS Coding Club"
+  },
+  {
+    "id": "MITS-HACK-002",
+    "name": "Rahul Sharma",
+    "email": "rahul@email.com",
+    "event": "Hackathon 2026",
+    "date": "2026-03-29",
+    "role": "Winner",
+    "issuedBy": "MITS Coding Club"
+  }
+]
