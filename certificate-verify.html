@@ -136,10 +136,11 @@ function escapeHtml(value) {
 }
 
 async function verifyCertificate(id) {
+  const resultDiv = document.getElementById("result");
+  
+  // Try Firestore first
   const docRef = doc(db, "certificates", id);
   const docSnap = await getDoc(docRef);
-
-  const resultDiv = document.getElementById("result");
 
   if (docSnap.exists()) {
     const data = docSnap.data();
@@ -185,6 +186,59 @@ async function verifyCertificate(id) {
       <div class="divider"></div>
       <a href="certificate-template.html?id=${encodeURIComponent(id)}">Open Printable Certificate</a>
     `;
+  } else if (id.startsWith("IBF-")) {
+    // Fallback: Try new API for IBF pattern
+    try {
+      const apiUrl = "https://script.google.com/macros/s/AKfycbwbayl9wgTMYtgULF5CBgO_-RRS0SrLCIpMG7VyIS06dnDvUbcbXcrtTNeC-tkWnmqw/exec?ref=" + encodeURIComponent(id);
+      const response = await fetch(apiUrl);
+      const apiData = await response.json();
+      
+      if (apiData && apiData.status === "VALID") {
+        const certId = escapeHtml(apiData.ref);
+        resultDiv.innerHTML = `
+          <div class="badge">VERIFIED</div>
+          <div class="status verified">Certificate Verified</div>
+          <div class="subtext">Innovation & DIY Club</div>
+
+          <div class="divider"></div>
+
+          <div class="row">
+            <span class="label">Certificate ID</span>
+            <span class="value">${certId}</span>
+          </div>
+
+          <div class="row">
+            <span class="label">Name</span>
+            <span class="value">${escapeHtml(apiData.name)}</span>
+          </div>
+
+          <div class="row">
+            <span class="label">Email</span>
+            <span class="value">${escapeHtml(apiData.email)}</span>
+          </div>
+
+          <div class="row">
+            <span class="label">Role</span>
+            <span class="value">${escapeHtml(apiData.role)}</span>
+          </div>
+
+          <div class="row">
+            <span class="label">Issued By</span>
+            <span class="value">Innovation and DIY club</span>
+          </div>
+        `;
+      } else {
+        resultDiv.innerHTML = `
+          <div class="status invalid">Invalid Certificate</div>
+          <div class="subtext">This certificate does not exist in our records.</div>
+        `;
+      }
+    } catch (error) {
+      resultDiv.innerHTML = `
+        <div class="status invalid">Verification Error</div>
+        <div class="subtext">${error.message}</div>
+      `;
+    }
   } else {
     resultDiv.innerHTML = `
       <div class="status invalid">Invalid Certificate</div>

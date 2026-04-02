@@ -48,8 +48,24 @@
   const ref = params.get("ref");
   const id = params.get("id");
   const resultEl = document.getElementById("result");
-  const API_BASE =
+  
+  // Old system API (CFI-310126 pattern)
+  const OLD_API_BASE =
     "https://script.google.com/macros/s/AKfycbyXHJMdYUDDxDw5Ua2SOh5qU7S8TWUDphQruiziebESM-SSrc1y-yHzmJV88gvALSaa/exec?ref=";
+  
+  // New system API (IBF-030426 pattern)
+  const NEW_API_BASE =
+    "https://script.google.com/macros/s/AKfycbwbayl9wgTMYtgULF5CBgO_-RRS0SrLCIpMG7VyIS06dnDvUbcbXcrtTNeC-tkWnmqw/exec?ref=";
+
+  function detectRefSystem(rawRef) {
+    const input = (rawRef || "").trim().toUpperCase();
+    if (input.startsWith("IBF-")) {
+      return "new";
+    } else if (input.startsWith("CFI-") || input.match(/^[0-9]{6}-/)) {
+      return "old";
+    }
+    return "unknown";
+  }
 
   function buildRefCandidates(rawRef) {
     const input = (rawRef || "").trim().toUpperCase();
@@ -77,16 +93,32 @@
   }
 
   async function verifyByRef(rawRef) {
-    const refsToTry = buildRefCandidates(rawRef);
+    const system = detectRefSystem(rawRef);
+    const apiBase = system === "new" ? NEW_API_BASE : OLD_API_BASE;
+    
+    // For new system, try direct match only
+    if (system === "new") {
+      const input = rawRef.trim().toUpperCase();
+      const url = apiBase + encodeURIComponent(input);
+      const res = await fetch(url);
+      if (!res.ok) throw new Error("Network error");
+      const data = await res.json();
+      if (data && data.status === "VALID") {
+        return data;
+      }
+      return null;
+    }
 
+    // For old system, try with fallback candidates
+    const refsToTry = buildRefCandidates(rawRef);
     for (const currentRef of refsToTry) {
-      const url = API_BASE + encodeURIComponent(currentRef);
+      const url = apiBase + encodeURIComponent(currentRef);
       const res = await fetch(url);
       if (!res.ok) {
         throw new Error("Network error");
       }
       const data = await res.json();
-      if (data.status === "VALID") {
+      if (data && data.status === "VALID") {
         return data;
       }
     }
@@ -103,14 +135,24 @@
     verifyByRef(ref)
       .then(data => {
         if (data && data.status === "VALID") {
-          resultEl.innerHTML = `
-            ✅ <b>Certificate Verified</b><br><br>
-            <b>Reference No:</b> ${data.ref}<br>
-            <b>Name:</b> ${data.name}<br>
-            <b>Enrollment:</b> ${data.enrollment}<br>
-            <b>Branch:</b> ${data.branch}<br>
-            <b>Year:</b> ${data.year}
-          `;
+          // Handle both old and new system response formats
+          const system = detectRefSystem(ref);
+          let html = `✅ <b>Certificate Verified</b><br><br>`;
+          html += `<b>Reference No:</b> ${data.ref}<br>`;
+          html += `<b>Name:</b> ${data.name}<br>`;
+          
+          if (system === "old") {
+            // Old system fields
+            html += `<b>Enrollment:</b> ${data.enrollment || "—"}<br>`;
+            html += `<b>Branch:</b> ${data.branch || "—"}<br>`;
+            html += `<b>Year:</b> ${data.year || "—"}`;
+          } else {
+            // New system fields
+            html += `<b>Email:</b> ${data.email || "—"}<br>`;
+            html += `<b>Role:</b> ${data.role || "—"}`;
+          }
+          
+          resultEl.innerHTML = html;
         } else {
           resultEl.innerHTML = `❌ Invalid Certificate<br><small>Checked ref: ${ref}</small>`;
         }
