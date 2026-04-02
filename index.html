@@ -48,6 +48,51 @@
   const ref = params.get("ref");
   const id = params.get("id");
   const resultEl = document.getElementById("result");
+  const API_BASE =
+    "https://script.google.com/macros/s/AKfycbyXHJMdYUDDxDw5Ua2SOh5qU7S8TWUDphQruiziebESM-SSrc1y-yHzmJV88gvALSaa/exec?ref=";
+
+  function buildRefCandidates(rawRef) {
+    const input = (rawRef || "").trim().toUpperCase();
+    const set = new Set();
+
+    if (!input) return [];
+
+    set.add(input);
+
+    if (!input.startsWith("CFI-")) {
+      set.add("CFI-" + input);
+    }
+
+    // Some old links were generated with a missing final alphanumeric char.
+    const normalized = input.startsWith("CFI-") ? input : "CFI-" + input;
+    const parts = normalized.split("-");
+    const suffix = parts[parts.length - 1] || "";
+    if (/^[A-Z0-9]{6}$/.test(suffix)) {
+      for (let d = 0; d <= 9; d++) {
+        set.add(normalized + String(d));
+      }
+    }
+
+    return Array.from(set);
+  }
+
+  async function verifyByRef(rawRef) {
+    const refsToTry = buildRefCandidates(rawRef);
+
+    for (const currentRef of refsToTry) {
+      const url = API_BASE + encodeURIComponent(currentRef);
+      const res = await fetch(url);
+      if (!res.ok) {
+        throw new Error("Network error");
+      }
+      const data = await res.json();
+      if (data.status === "VALID") {
+        return data;
+      }
+    }
+
+    return null;
+  }
 
   if (id) {
     const target = "certificate-verify.html?id=" + encodeURIComponent(id.trim());
@@ -55,17 +100,9 @@
   } else if (!ref) {
     resultEl.innerHTML = "❌ Reference number missing in QR code.";
   } else {
-    const API_URL =
-      "https://script.google.com/macros/s/AKfycbyXHJMdYUDDxDw5Ua2SOh5qU7S8TWUDphQruiziebESM-SSrc1y-yHzmJV88gvALSaa/exec?ref=" +
-      encodeURIComponent(ref.trim());
-
-    fetch(API_URL)
-      .then(res => {
-        if (!res.ok) throw new Error("Network error");
-        return res.json();
-      })
+    verifyByRef(ref)
       .then(data => {
-        if (data.status === "VALID") {
+        if (data && data.status === "VALID") {
           resultEl.innerHTML = `
             ✅ <b>Certificate Verified</b><br><br>
             <b>Reference No:</b> ${data.ref}<br>
@@ -75,7 +112,7 @@
             <b>Year:</b> ${data.year}
           `;
         } else {
-          resultEl.innerHTML = "❌ Invalid Certificate";
+          resultEl.innerHTML = `❌ Invalid Certificate<br><small>Checked ref: ${ref}</small>`;
         }
       })
       .catch(() => {
