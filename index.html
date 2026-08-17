@@ -225,53 +225,30 @@
       transform: translateY(0);
     }
 
-    /* Verification Mode Tabs */
-    .verify-tabs {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 14px;
-      background: rgba(15, 23, 42, 0.6);
-      padding: 4px;
-      border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .tab-btn {
-      flex: 1;
+    /* Divider Line */
+    .divider-container {
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 9px 12px;
-      background: transparent;
-      border: none;
-      border-radius: 8px;
+      gap: 12px;
+      margin: 14px 0;
+    }
+
+    .divider-line {
+      flex: 1;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .divider-text {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
       color: var(--text-muted);
-      font-family: 'Inter', sans-serif;
-      font-size: 0.86rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .tab-btn:hover {
-      color: #fff;
-      background: rgba(255, 255, 255, 0.04);
-    }
-
-    .tab-btn.active {
-      background: linear-gradient(135deg, rgba(147, 51, 234, 0.35) 0%, rgba(6, 182, 212, 0.35) 100%);
-      color: #fff;
-      border: 1px solid rgba(147, 51, 234, 0.5);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    }
-
-    .tab-content {
-      display: none;
-    }
-
-    .tab-content.active {
-      display: flex;
+      background: rgba(15, 23, 42, 0.8);
+      padding: 4px 10px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      white-space: nowrap;
     }
 
     /* Upload Container & Dropzone */
@@ -693,34 +670,157 @@
       line-height: 1.5;
     }
 
-    @media (max-width: 480px) {
+    /* Responsiveness Improvements Across All Device Breakpoints */
+    @media (max-width: 768px) {
       body {
-        padding: 16px 12px;
+        padding: 18px 12px;
+      }
+
+      .portal-container {
+        gap: 16px;
       }
 
       .branding-header {
-        padding: 20px 14px;
+        padding: 24px 16px 20px 16px;
+        border-radius: 16px;
       }
 
       .logo-main {
-        height: 60px;
+        height: 68px;
       }
 
       .portal-title {
-        font-size: 1.35rem;
+        font-size: 1.45rem;
+      }
+
+      .search-box-card {
+        padding: 14px;
+        border-radius: 14px;
+      }
+
+      .result-card {
+        padding: 22px 18px;
+        border-radius: 16px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      body {
+        padding: 12px 8px;
+      }
+
+      .portal-title {
+        font-size: 1.3rem;
+      }
+
+      .portal-subtitle {
+        font-size: 0.82rem;
+        line-height: 1.4;
       }
 
       .search-form {
         flex-direction: column;
+        gap: 10px;
+      }
+
+      .search-input {
+        font-size: 1rem; /* 16px font-size prevents iOS Safari auto-zoom on input focus */
+        padding: 12px 14px 12px 40px;
+        height: 48px;
       }
 
       .verify-btn {
-        padding: 12px;
         width: 100%;
+        height: 48px;
+        font-size: 0.95rem;
+      }
+
+      .dropzone {
+        padding: 18px 12px;
+      }
+
+      .dropzone-icon {
+        width: 40px;
+        height: 40px;
+      }
+
+      .dropzone-text {
+        font-size: 0.84rem;
+      }
+
+      .dropzone-sub {
+        font-size: 0.74rem;
       }
 
       .details-grid {
         grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .detail-item {
+        padding: 10px 12px;
+      }
+
+      .detail-value {
+        font-size: 0.9rem;
+      }
+
+      .event-title-banner {
+        font-size: 1.15rem;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .verified-badge-container, .invalid-badge-container {
+        padding: 12px 14px;
+        gap: 10px;
+      }
+
+      .shield-icon, .invalid-icon {
+        width: 36px;
+        height: 36px;
+      }
+
+      .verified-header-text .status-label, .invalid-text .status-label {
+        font-size: 1.05rem;
+      }
+
+      .toast {
+        width: calc(100% - 32px);
+        max-width: 380px;
+        font-size: 0.82rem;
+        padding: 10px 16px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      body {
+        padding: 8px 4px;
+      }
+
+      .logo-main {
+        height: 52px;
+      }
+
+      .portal-title {
+        font-size: 1.15rem;
+      }
+
+      .portal-subtitle {
+        font-size: 0.76rem;
+      }
+
+      .initial-title {
+        font-size: 1.1rem;
+      }
+
+      .initial-desc {
+        font-size: 0.82rem;
+      }
+
+      .event-tag {
+        font-size: 0.72rem;
+        padding: 3px 8px;
       }
     }
   </style>
@@ -742,23 +842,8 @@
 
     <!-- Certificate Verification Input / QR Scanner Card -->
     <div class="search-box-card">
-      <div class="verify-tabs">
-        <button type="button" class="tab-btn active" id="tabManual">
-          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
-          </svg>
-          Enter ID
-        </button>
-        <button type="button" class="tab-btn" id="tabUpload">
-          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-          </svg>
-          Upload Image / PDF (QR Scan)
-        </button>
-      </div>
-
-      <!-- Tab 1: Manual Reference ID Form -->
-      <form class="search-form tab-content active" id="searchForm">
+      <!-- Reference ID Search Form -->
+      <form class="search-form" id="searchForm">
         <div class="search-input-wrapper">
           <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
             stroke="currentColor">
@@ -776,8 +861,15 @@
         </button>
       </form>
 
-      <!-- Tab 2: File Upload / Dropzone Container -->
-      <div class="upload-container tab-content" id="uploadContainer">
+      <!-- OR Divider -->
+      <div class="divider-container">
+        <div class="divider-line"></div>
+        <span class="divider-text">OR SCAN QR CODE</span>
+        <div class="divider-line"></div>
+      </div>
+
+      <!-- File Upload / Dropzone Container (Directly Visible) -->
+      <div class="upload-container" id="uploadContainer">
         <input type="file" id="qrFileInput" accept="image/*,.pdf" style="display: none;" />
         <div class="dropzone" id="dropzone">
           <div class="dropzone-icon">
@@ -819,6 +911,7 @@
   </div>
 
   <!-- QR Code & PDF Parsing Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@zxing/library@0.21.3/umd/index.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -1204,25 +1297,6 @@
       }
     });
 
-    /* Tab Switcher Logic */
-    const tabManual = document.getElementById("tabManual");
-    const tabUpload = document.getElementById("tabUpload");
-    const uploadContainer = document.getElementById("uploadContainer");
-
-    tabManual.addEventListener("click", () => {
-      tabManual.classList.add("active");
-      tabUpload.classList.remove("active");
-      searchForm.classList.add("active");
-      uploadContainer.classList.remove("active");
-    });
-
-    tabUpload.addEventListener("click", () => {
-      tabUpload.classList.add("active");
-      tabManual.classList.remove("active");
-      uploadContainer.classList.add("active");
-      searchForm.classList.remove("active");
-    });
-
     /* Dropzone Drag & Drop / File Input Handlers */
     const dropzone = document.getElementById("dropzone");
     const qrFileInput = document.getElementById("qrFileInput");
@@ -1334,14 +1408,21 @@
       return null;
     }
 
-    function createCroppedCanvas(source, sx, sy, sw, sh, targetScale = 1.0) {
+    // Creates cropped canvas with solid white background padding (#ffffff) to guarantee quiet zone around QR code finder patterns
+    function createCroppedCanvas(source, sx, sy, sw, sh, targetScale = 1.0, padding = 40) {
+      const innerW = Math.max(1, Math.floor(sw * targetScale));
+      const innerH = Math.max(1, Math.floor(sh * targetScale));
       const canvas = document.createElement('canvas');
-      canvas.width = Math.max(1, Math.floor(sw * targetScale));
-      canvas.height = Math.max(1, Math.floor(sh * targetScale));
+      canvas.width = innerW + (padding * 2);
+      canvas.height = innerH + (padding * 2);
+
       const ctx = canvas.getContext('2d', { willReadFrequently: true });
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
       ctx.imageSmoothingEnabled = true;
       ctx.imageSmoothingQuality = 'high';
-      ctx.drawImage(source, sx, sy, sw, sh, 0, 0, canvas.width, canvas.height);
+      ctx.drawImage(source, sx, sy, sw, sh, padding, padding, innerW, innerH);
       return canvas;
     }
 
@@ -1365,6 +1446,38 @@
       return canvas;
     }
 
+    function generateSlidingGridCanvases(img) {
+      const w = img.width;
+      const h = img.height;
+      const tiles = [];
+      const tileW = Math.floor(w * 0.4);
+      const tileH = Math.floor(h * 0.4);
+      const stepX = Math.floor(w * 0.25);
+      const stepY = Math.floor(h * 0.25);
+
+      for (let y = 0; y < h; y += stepY) {
+        for (let x = 0; x < w; x += stepX) {
+          const sw = Math.min(tileW, w - x);
+          const sh = Math.min(tileH, h - y);
+          if (sw > 40 && sh > 40) {
+            tiles.push(createCroppedCanvas(img, x, y, sw, sh, 2.5, 40));
+          }
+        }
+      }
+      return tiles;
+    }
+
+    async function scanQRWithHtml5Qrcode(file) {
+      if (typeof Html5Qrcode === "undefined") return null;
+      try {
+        const qrCodeMessage = await Html5Qrcode.scanFile(file, true);
+        if (qrCodeMessage) {
+          return qrCodeMessage;
+        }
+      } catch (e) { }
+      return null;
+    }
+
     async function scanQRFromImage(file) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -1376,41 +1489,34 @@
 
             const candidates = [];
 
-            // 1. Full Image Canvas
-            const fullCanvas = createCroppedCanvas(img, 0, 0, w, h, 1.0);
-            candidates.push(fullCanvas);
+            // 1. Full Image Padded Canvas
+            candidates.push(createCroppedCanvas(img, 0, 0, w, h, 1.0, 40));
 
-            // 2. Tight Bottom-Left Corner (Upscaled 2.5x & 3.5x for small QR codes)
-            const tightBotLeft = createCroppedCanvas(img, 0, h * 0.6, w * 0.35, h * 0.4, 2.5);
-            candidates.push(tightBotLeft);
+            // 2. White-Padded Bottom-Left Corner Crops (Upscaled 2.0x, 3.0x, 4.0x)
+            const tightBotLeft1 = createCroppedCanvas(img, 0, h * 0.5, w * 0.4, h * 0.5, 2.0, 40);
+            const tightBotLeft2 = createCroppedCanvas(img, 0, h * 0.6, w * 0.35, h * 0.4, 3.0, 40);
+            const ultraTightBotLeft = createCroppedCanvas(img, 0, h * 0.7, w * 0.28, h * 0.3, 4.0, 40);
+            candidates.push(tightBotLeft1, tightBotLeft2, ultraTightBotLeft);
 
-            const ultraTightBotLeft = createCroppedCanvas(img, 0, h * 0.7, w * 0.25, h * 0.3, 3.5);
-            candidates.push(ultraTightBotLeft);
+            // 3. White-Padded Bottom-Right Corner Crops
+            const tightBotRight = createCroppedCanvas(img, w * 0.6, h * 0.5, w * 0.4, h * 0.5, 2.5, 40);
+            const ultraTightBotRight = createCroppedCanvas(img, w * 0.7, h * 0.7, w * 0.3, h * 0.3, 4.0, 40);
+            candidates.push(tightBotRight, ultraTightBotRight);
 
-            const medBotLeft = createCroppedCanvas(img, 0, h * 0.45, w * 0.5, h * 0.55, 1.5);
-            candidates.push(medBotLeft);
+            // 4. White-Padded Top Corners
+            candidates.push(createCroppedCanvas(img, 0, 0, w * 0.35, h * 0.35, 2.5, 40));
+            candidates.push(createCroppedCanvas(img, w * 0.65, 0, w * 0.35, h * 0.35, 2.5, 40));
 
-            // 3. Tight Bottom-Right Corner (Upscaled 2.5x)
-            const tightBotRight = createCroppedCanvas(img, w * 0.65, h * 0.6, w * 0.35, h * 0.4, 2.5);
-            candidates.push(tightBotRight);
+            // 5. Multi-Threshold Binarized Padded Canvases
+            candidates.push(createBinarizedCanvas(tightBotLeft2, 120));
+            candidates.push(createBinarizedCanvas(tightBotLeft2, 150));
+            candidates.push(createBinarizedCanvas(ultraTightBotLeft, 135));
 
-            // 4. Tight Top-Left & Top-Right Corners
-            candidates.push(createCroppedCanvas(img, 0, 0, w * 0.35, h * 0.35, 2.5));
-            candidates.push(createCroppedCanvas(img, w * 0.65, 0, w * 0.35, h * 0.35, 2.5));
+            // 6. Sliding Grid Padded Tile Canvases (Coverage for small QR code anywhere on canvas)
+            const gridCanvases = generateSlidingGridCanvases(img);
+            candidates.push(...gridCanvases);
 
-            // 5. Multi-threshold Binarized Passes (for light/dark gradient backgrounds)
-            candidates.push(createBinarizedCanvas(tightBotLeft, 120));
-            candidates.push(createBinarizedCanvas(tightBotLeft, 160));
-            candidates.push(createBinarizedCanvas(ultraTightBotLeft, 140));
-            candidates.push(createBinarizedCanvas(fullCanvas, 135));
-
-            // 6. Multi-scale full image passes
-            if (w > 1600 || h > 1600) {
-              candidates.push(createCroppedCanvas(img, 0, 0, w, h, 0.5));
-            }
-            candidates.push(createCroppedCanvas(img, 0, 0, w, h, 1.5));
-
-            // Run scanner pipeline across all candidate canvases
+            // Run multi-engine decoder across all padded candidates
             for (const candCanvas of candidates) {
               const qrText = await decodeCanvasQR(candCanvas);
               if (qrText) {
@@ -1452,12 +1558,11 @@
         const h = canvas.height;
 
         const pageCandidates = [
-          canvas,
-          createCroppedCanvas(canvas, 0, h * 0.6, w * 0.35, h * 0.4, 2.5),
-          createCroppedCanvas(canvas, 0, h * 0.7, w * 0.25, h * 0.3, 3.5),
-          createCroppedCanvas(canvas, w * 0.65, h * 0.6, w * 0.35, h * 0.4, 2.5),
-          createBinarizedCanvas(createCroppedCanvas(canvas, 0, h * 0.6, w * 0.35, h * 0.4, 2.5), 140),
-          createBinarizedCanvas(canvas, 135)
+          createCroppedCanvas(canvas, 0, 0, w, h, 1.0, 40),
+          createCroppedCanvas(canvas, 0, h * 0.6, w * 0.35, h * 0.4, 2.5, 40),
+          createCroppedCanvas(canvas, 0, h * 0.7, w * 0.25, h * 0.3, 3.5, 40),
+          createCroppedCanvas(canvas, w * 0.65, h * 0.6, w * 0.35, h * 0.4, 2.5, 40),
+          createBinarizedCanvas(createCroppedCanvas(canvas, 0, h * 0.6, w * 0.35, h * 0.4, 2.5, 40), 140)
         ];
 
         for (const cand of pageCandidates) {
@@ -1479,14 +1584,27 @@
 
       try {
         let qrResultText = "";
-        if (file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf")) {
-          scanningText.textContent = `Scanning QR code from PDF (${file.name})...`;
-          qrResultText = await scanQRFromPDF(file);
-        } else if (file.type.startsWith("image/") || /\.(png|jpe?g|webp|gif|bmp)$/i.test(file.name)) {
+
+        // Attempt 1: Direct file scan using Html5Qrcode engine
+        if (file.type.startsWith("image/") || /\.(png|jpe?g|webp|gif|bmp)$/i.test(file.name)) {
           scanningText.textContent = `Scanning QR code from image (${file.name})...`;
-          qrResultText = await scanQRFromImage(file);
-        } else {
-          throw new Error("Unsupported file type. Please upload an Image (PNG, JPG, WEBP) or PDF file.");
+          qrResultText = await scanQRWithHtml5Qrcode(file);
+        }
+
+        // Attempt 2: Padded multi-crop, upscaling & sliding grid pipeline
+        if (!qrResultText) {
+          if (file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf")) {
+            scanningText.textContent = `Scanning QR code from PDF (${file.name})...`;
+            qrResultText = await scanQRFromPDF(file);
+          } else if (file.type.startsWith("image/") || /\.(png|jpe?g|webp|gif|bmp)$/i.test(file.name)) {
+            qrResultText = await scanQRFromImage(file);
+          } else {
+            throw new Error("Unsupported file type. Please upload an Image (PNG, JPG, WEBP) or PDF file.");
+          }
+        }
+
+        if (!qrResultText) {
+          throw new Error("No QR code detected in the uploaded file. Please ensure the image is clear and contains a valid QR code.");
         }
 
         const extractedRef = extractRefFromQR(qrResultText);
