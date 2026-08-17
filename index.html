@@ -1,167 +1,1053 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Certificate Verification</title>
+  <title>Certificate Verification Portal | Innovation & DIY Club</title>
+
+  <!-- SEO & Open Graph Meta -->
+  <meta name="description"
+    content="Official Certificate Verification Portal for Innovation & DIY Club, MITS Gwalior. Verify certificate authenticity instantly." />
+  <meta property="og:title" content="Certificate Verification | Innovation & DIY Club" />
+  <meta property="og:description"
+    content="Verify authentic certificates issued by Innovation & DIY Club, MITS Gwalior." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap"
+    rel="stylesheet">
 
   <style>
-    body {
+    :root {
+      --bg-dark: #0b0f19;
+      --card-bg: rgba(17, 24, 39, 0.85);
+      --card-border: rgba(255, 255, 255, 0.12);
+      --primary-purple: #9333ea;
+      --primary-purple-glow: rgba(147, 51, 234, 0.35);
+      --accent-cyan: #06b6d4;
+      --accent-cyan-glow: rgba(6, 182, 212, 0.35);
+      --success-green: #10b981;
+      --success-glow: rgba(16, 185, 129, 0.3);
+      --danger-red: #ef4444;
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --text-dim: #6b7280;
+    }
+
+    * {
+      box-sizing: border-box;
       margin: 0;
+      padding: 0;
+    }
+
+    body {
       min-height: 100vh;
+      background-color: var(--bg-dark);
+      background-image:
+        radial-gradient(circle at 15% 15%, rgba(147, 51, 234, 0.18) 0%, transparent 40%),
+        radial-gradient(circle at 85% 85%, rgba(6, 182, 212, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 50% 50%, rgba(17, 24, 39, 1) 0%, rgba(11, 15, 25, 1) 100%);
+      color: var(--text-main);
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 24px 16px;
+      overflow-x: hidden;
+    }
+
+    /* Outer Wrapper */
+    .portal-container {
+      width: 100%;
+      max-width: 680px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* Header & Branding Card */
+    .branding-header {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 20px;
+      padding: 28px 20px 24px 20px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .branding-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -50%;
+      width: 200%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent-cyan), var(--primary-purple), transparent);
+      animation: headerGlow 4s linear infinite;
+    }
+
+    @keyframes headerGlow {
+      0% {
+        transform: translateX(-30%);
+      }
+
+      100% {
+        transform: translateX(30%);
+      }
+    }
+
+    .logos-row {
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #111827;
-      color: #f9fafb;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      margin-bottom: 16px;
     }
-    .card {
-      background: #1f2937;
-      border: 1px solid #374151;
-      border-radius: 14px;
-      padding: 32px;
-      width: min(90vw, 420px);
+
+    .logo-main {
+      height: 76px;
+      width: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 6px 14px rgba(147, 51, 234, 0.3));
+      transition: transform 0.3s ease;
+    }
+
+    .logo-main:hover {
+      transform: scale(1.04);
+    }
+
+    .portal-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.65rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #ffffff 0%, #d1d5db 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 6px;
+    }
+
+    .portal-subtitle {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* Search Box Container */
+    .search-box-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(16px);
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .search-form {
+      display: flex;
+      gap: 10px;
+    }
+
+    .search-input-wrapper {
+      position: relative;
+      flex: 1;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-dim);
+      width: 18px;
+      height: 18px;
+    }
+
+    .search-input {
+      width: 100%;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      padding: 12px 14px 12px 42px;
+      color: #fff;
+      font-family: inherit;
+      font-size: 0.92rem;
+      font-weight: 500;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .search-input:focus {
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 0 3px var(--accent-cyan-glow);
+      background: rgba(15, 23, 42, 0.95);
+    }
+
+    .search-input::placeholder {
+      color: var(--text-dim);
+    }
+
+    .verify-btn {
+      background: linear-gradient(135deg, var(--primary-purple) 0%, #7e22ce 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 0 22px;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      font-size: 0.92rem;
+      cursor: pointer;
+      box-shadow: 0 4px 14px var(--primary-purple-glow);
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+
+    .verify-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(147, 51, 234, 0.5);
+      background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%);
+    }
+
+    .verify-btn:active {
+      transform: translateY(0);
+    }
+
+    /* Main Result Card */
+    .result-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(16px);
+      border-radius: 20px;
+      padding: 28px 24px;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
+      min-height: 260px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+    }
+
+    /* Loading State */
+    .loading-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
       text-align: center;
-      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.45);
+      gap: 16px;
     }
-    h1 {
-      margin-bottom: 10px;
+
+    .spinner-ring {
+      width: 56px;
+      height: 56px;
+      border: 3px solid rgba(147, 51, 234, 0.15);
+      border-top: 3px solid var(--accent-cyan);
+      border-right: 3px solid var(--primary-purple);
+      border-radius: 50%;
+      animation: spin 0.9s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
     }
-    #result {
-      margin-top: 18px;
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .loading-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .loading-subtitle {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* Initial State */
+    .initial-state {
+      text-align: center;
+      padding: 30px 20px;
+    }
+
+    .initial-icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 16px auto;
+      background: rgba(147, 51, 234, 0.12);
+      border: 1px solid rgba(147, 51, 234, 0.25);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #c084fc;
+    }
+
+    .initial-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .initial-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      max-width: 440px;
+      margin: 0 auto 20px auto;
+      line-height: 1.5;
+    }
+
+    .event-tags {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .event-tag {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* Verified State */
+    .verified-badge-container {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 18px;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: 14px;
+      margin-bottom: 24px;
+      animation: fadeInDown 0.4s ease;
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .shield-icon {
+      width: 42px;
+      height: 42px;
+      background: #10b981;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      box-shadow: 0 0 16px var(--success-glow);
+      flex-shrink: 0;
+    }
+
+    .verified-header-text .status-label {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #10b981;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .verified-header-text .status-sub {
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    /* Event Name Header Banner */
+    .event-title-banner {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .event-title-badge {
+      background: linear-gradient(135deg, rgba(147, 51, 234, 0.2), rgba(6, 182, 212, 0.2));
+      border: 1px solid rgba(147, 51, 234, 0.4);
+      color: #e9d5ff;
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    /* Grid of Details */
+    .details-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .detail-item {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 12px;
+      padding: 12px 14px;
+      transition: background 0.2s ease;
+    }
+
+    .detail-item:hover {
+      background: rgba(15, 23, 42, 0.85);
+    }
+
+    .detail-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .detail-value {
+      font-size: 0.95rem;
+      color: var(--text-main);
+      font-weight: 600;
+      word-break: break-word;
+    }
+
+    .detail-value.highlight {
+      color: var(--accent-cyan);
+      font-family: monospace;
+      letter-spacing: 0.03em;
+    }
+
+    /* Actions Footer */
+    .actions-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .action-btn {
+      flex: 1;
+      width: 100%;
+      background: linear-gradient(135deg, var(--accent-cyan) 0%, #0891b2 100%);
+      border: none;
+      color: #fff;
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 14px var(--accent-cyan-glow);
+      transition: all 0.2s ease;
+    }
+
+    .action-btn:hover {
+      background: linear-gradient(135deg, #22d3ee 0%, var(--accent-cyan) 100%);
+      transform: translateY(-1px);
+    }
+
+    /* Invalid State */
+    .invalid-badge-container {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px;
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      border-radius: 14px;
+      margin-bottom: 20px;
+    }
+
+    .invalid-icon {
+      width: 42px;
+      height: 42px;
+      background: var(--danger-red);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .invalid-text .status-label {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--danger-red);
+    }
+
+    .invalid-text .status-sub {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+
+    .invalid-info {
+      font-size: 0.88rem;
+      color: var(--text-muted);
       line-height: 1.6;
-      font-size: 1rem;
+      background: rgba(15, 23, 42, 0.6);
+      padding: 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #1e293b;
+      border: 1px solid var(--accent-cyan);
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 30px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Footer */
+    .portal-footer {
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      margin-top: 10px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 16px 12px;
+      }
+
+      .branding-header {
+        padding: 20px 14px;
+      }
+
+      .logo-main {
+        height: 60px;
+      }
+
+      .portal-title {
+        font-size: 1.35rem;
+      }
+
+      .search-form {
+        flex-direction: column;
+      }
+
+      .verify-btn {
+        padding: 12px;
+        width: 100%;
+      }
+
+      .details-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 
 <body>
-  <div class="card">
-    <h1>Certificate Verification</h1>
-    <p>Please wait while we verify your certificate.</p>
-    <div id="result">⏳ Verifying…</div>
+
+  <div class="portal-container">
+
+    <!-- Header & Club Logo ONLY -->
+    <header class="branding-header">
+      <div class="logos-row">
+        <img src="assets/photos/diy-club-logo.png" alt="Innovation & DIY Club Logo" class="logo-main"
+          title="Innovation & DIY Club" />
+      </div>
+      <h1 class="portal-title">Certificate Verification Portal</h1>
+      <p class="portal-subtitle">Innovation & DIY Club • Madhav Institute of Technology and Science, Gwalior</p>
+    </header>
+
+    <!-- Certificate ID Search Form -->
+    <div class="search-box-card">
+      <form class="search-form" id="searchForm">
+        <div class="search-input-wrapper">
+          <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <input type="text" id="certInput" class="search-input"
+            placeholder="Enter Reference ID (e.g. CFI-310126-002-LWL98G0)" autocomplete="off" spellcheck="false" />
+        </div>
+        <button type="submit" class="verify-btn">
+          <span>Verify</span>
+          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </button>
+      </form>
+    </div>
+
+    <!-- Main Results Display Area -->
+    <main class="result-card" id="resultContainer">
+      <!-- Dynamic Content Rendered Here via JS -->
+    </main>
+
+    <!-- Portal Footer -->
+    <footer class="portal-footer">
+      Official Credential Authentication System &copy; <span id="yearSpan"></span> Innovation & DIY Club.<br />
+    </footer>
+
   </div>
 
-<script>
-  const params = new URLSearchParams(window.location.search);
-  const ref = params.get("ref");
-  const id = params.get("id");
-  const resultEl = document.getElementById("result");
-  
-  // Old system API (CFI-310126 pattern)
-  const OLD_API_BASE =
-    "https://script.google.com/macros/s/AKfycbyXHJMdYUDDxDw5Ua2SOh5qU7S8TWUDphQruiziebESM-SSrc1y-yHzmJV88gvALSaa/exec?ref=";
-  
-  // New system API (IBF-030426 pattern)
-  const NEW_API_BASE =
-    "https://script.google.com/macros/s/AKfycbwbayl9wgTMYtgULF5CBgO_-RRS0SrLCIpMG7VyIS06dnDvUbcbXcrtTNeC-tkWnmqw/exec?ref=";
+  <!-- Toast Element -->
+  <div class="toast" id="toast">
+    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="#06b6d4">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+    </svg>
+    <span id="toastMsg">Link copied to clipboard!</span>
+  </div>
 
-  function detectRefSystem(rawRef) {
-    const input = (rawRef || "").trim().toUpperCase();
-    if (input.startsWith("IBF-")) {
-      return "new";
-    } else if (input.startsWith("CFI-") || input.match(/^[0-9]{6}-/)) {
-      return "old";
-    }
-    return "unknown";
-  }
+  <!-- Firebase Modular SDK for legacy Firestore fallback -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-  function buildRefCandidates(rawRef) {
-    const input = (rawRef || "").trim().toUpperCase();
-    const set = new Set();
+    const firebaseConfig = {
+      apiKey: "AIzaSyC5edGbUJ_7asC1w2ZF_dFWX0SoSArz8T8",
+      authDomain: "certificate-authenticati-dfbe5.firebaseapp.com",
+      projectId: "certificate-authenticati-dfbe5",
+      storageBucket: "certificate-authenticati-dfbe5.firebasestorage.app",
+      messagingSenderId: "1090557897061",
+      appId: "1:1090557897061:web:20b6396302b6c527b8d98c",
+      measurementId: "G-JL3DF70DPL"
+    };
 
-    if (!input) return [];
-
-    set.add(input);
-
-    if (!input.startsWith("CFI-")) {
-      set.add("CFI-" + input);
+    let firebaseDb = null;
+    try {
+      const app = initializeApp(firebaseConfig);
+      firebaseDb = getFirestore(app);
+    } catch (e) {
+      console.warn("Firebase initialization skipped:", e);
     }
 
-    // Some old links were generated with a missing final alphanumeric char.
-    const normalized = input.startsWith("CFI-") ? input : "CFI-" + input;
-    const parts = normalized.split("-");
-    const suffix = parts[parts.length - 1] || "";
-    if (/^[A-Z0-9]{6}$/.test(suffix)) {
-      for (let d = 0; d <= 9; d++) {
-        set.add(normalized + String(d));
-      }
-    }
-
-    return Array.from(set);
-  }
-
-  async function verifyByRef(rawRef) {
-    const system = detectRefSystem(rawRef);
-    const apiBase = system === "new" ? NEW_API_BASE : OLD_API_BASE;
-    
-    // For new system, try direct match only
-    if (system === "new") {
-      const input = rawRef.trim().toUpperCase();
-      const url = apiBase + encodeURIComponent(input);
-      const res = await fetch(url);
-      if (!res.ok) throw new Error("Network error");
-      const data = await res.json();
-      if (data && data.status === "VALID") {
-        return data;
+    window.checkFirestoreCertificate = async function (id) {
+      if (!firebaseDb) return null;
+      try {
+        const docRef = doc(firebaseDb, "certificates", id);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          return {
+            status: "VALID",
+            ref: id,
+            name: data.Name || data.name,
+            eventName: data.Event || data.event,
+            role: data.Role || data.role,
+            email: data.Email || data.email,
+            date: data.Date || data.date,
+            issuedBy: data["Issued by"] || data.issuedBy || "Innovation and DIY Club"
+          };
+        }
+      } catch (err) {
+        console.warn("Firestore lookup error:", err);
       }
       return null;
+    };
+  </script>
+
+  <!-- Main Verification Script -->
+  <script>
+    const CENTRAL_API_ENDPOINT = "https://script.google.com/macros/s/AKfycbxonioWdF6USjAB1OkK97Fe5iuOm_x00IV_b0jC_siPGKIh-12W5jFtjvef6SrIg6j9/exec";
+
+    document.getElementById("yearSpan").textContent = new Date().getFullYear();
+
+    const certInput = document.getElementById("certInput");
+    const searchForm = document.getElementById("searchForm");
+    const resultContainer = document.getElementById("resultContainer");
+
+    function escapeHtml(str) {
+      return String(str || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
     }
 
-    // For old system, try with fallback candidates
-    const refsToTry = buildRefCandidates(rawRef);
-    for (const currentRef of refsToTry) {
-      const url = apiBase + encodeURIComponent(currentRef);
-      const res = await fetch(url);
-      if (!res.ok) {
-        throw new Error("Network error");
-      }
-      const data = await res.json();
-      if (data && data.status === "VALID") {
-        return data;
-      }
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      const toastMsg = document.getElementById("toastMsg");
+      toastMsg.textContent = message;
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 3000);
     }
 
-    return null;
-  }
+    function hasValue(val) {
+      if (val === null || val === undefined) return false;
+      const str = String(val).trim();
+      return str !== "" && str !== "—" && str !== "-" && str !== "undefined" && str !== "null";
+    }
 
-  if (id) {
-    const target = "certificate-verify.html?id=" + encodeURIComponent(id.trim());
-    window.location.replace(target);
-  } else if (!ref) {
-    resultEl.innerHTML = "❌ Reference number missing in QR code.";
-  } else {
-    verifyByRef(ref)
-      .then(data => {
-        if (data && data.status === "VALID") {
-          // Handle both old and new system response formats
-          const system = detectRefSystem(ref);
-          let html = `✅ <b>Certificate Verified</b><br><br>`;
-          html += `<b>Reference No:</b> ${data.ref}<br>`;
-          html += `<b>Name:</b> ${data.name}<br>`;
-          
-          if (system === "old") {
-            // Old system fields
-            html += `<b>Enrollment:</b> ${data.enrollment || "—"}<br>`;
-            html += `<b>Branch:</b> ${data.branch || "—"}<br>`;
-            html += `<b>Year:</b> ${data.year || "—"}`;
-          } else {
-            // New system fields
-            html += `<b>Email:</b> ${data.email || "—"}<br>`;
-            html += `<b>Role:</b> ${data.role || "—"}`;
-          }
-          
-          resultEl.innerHTML = html;
-        } else {
-          resultEl.innerHTML = `❌ Invalid Certificate<br><small>Checked ref: ${ref}</small>`;
+    function buildRefCandidates(rawRef) {
+      const input = (rawRef || "").trim().toUpperCase();
+      const candidates = new Set();
+
+      if (!input) return [];
+
+      candidates.add(input);
+
+      if (!input.startsWith("CFI-")) {
+        candidates.add("CFI-" + input);
+      }
+
+      const normalized = input.startsWith("CFI-") ? input : "CFI-" + input;
+      const parts = normalized.split("-");
+      const suffix = parts[parts.length - 1] || "";
+
+      if (/^[A-Z0-9]{6}$/.test(suffix)) {
+        for (let d = 0; d <= 9; d++) {
+          candidates.add(normalized + String(d));
         }
-      })
-      .catch(() => {
-        resultEl.innerHTML = "❌ Verification failed";
-      });
-  }
-</script>
+      }
 
+      return Array.from(candidates);
+    }
+
+    function renderInitialState() {
+      resultContainer.innerHTML = `
+        <div class="initial-state">
+          <div class="initial-icon">
+            <svg width="32" height="32" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
+          </div>
+          <h2 class="initial-title">Verify Certificate Authenticity</h2>
+          <p class="initial-desc">Enter the Certificate Reference ID printed on your certificate or scan the QR code to instantly verify credential details.</p>
+          <div class="event-tags">
+            <span class="event-tag">Crafttronics</span>
+            <span class="event-tag">Innovation Battlefield</span>
+            <span class="event-tag">DIY Workshops</span>
+            <span class="event-tag">IEEE & IETE Events</span>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderLoadingState(refId) {
+      resultContainer.innerHTML = `
+        <div class="loading-state">
+          <div class="spinner-ring"></div>
+          <div class="loading-title">Verifying Certificate…</div>
+          <div class="loading-subtitle">Fetching record for <span style="color: var(--accent-cyan); font-family: monospace;">${escapeHtml(refId)}</span> from Registry</div>
+        </div>
+      `;
+    }
+
+    function renderVerifiedState(data) {
+      const refId = data.ref || certInput.value.trim();
+      const eventTitle = data.eventName || data.event;
+      const name = data.name;
+      const role = data.role;
+      const email = data.email;
+      const enrollment = data.enrollmentNumber || data.enrollment;
+      const branch = data.branchCourse || data.branch;
+      const mobile = data.mobileNumber || data.mobile;
+      const issuedBy = data.issuedBy || "Innovation & DIY Club, MITS Gwalior";
+
+      let detailCardsHtml = "";
+
+      if (hasValue(name)) {
+        detailCardsHtml += `
+          <div class="detail-item">
+            <div class="detail-label">👤 Participant Name</div>
+            <div class="detail-value" style="font-size: 1.1rem; color: #fff;">${escapeHtml(name)}</div>
+          </div>
+        `;
+      }
+
+      if (hasValue(refId)) {
+        detailCardsHtml += `
+          <div class="detail-item">
+            <div class="detail-label">🆔 Reference ID</div>
+            <div class="detail-value highlight">${escapeHtml(refId)}</div>
+          </div>
+        `;
+      }
+
+      if (hasValue(role)) {
+        detailCardsHtml += `
+          <div class="detail-item">
+            <div class="detail-label">🏅 Designation / Role</div>
+            <div class="detail-value" style="color: #a855f7;">${escapeHtml(role)}</div>
+          </div>
+        `;
+      }
+
+      if (hasValue(email)) {
+        detailCardsHtml += `
+          <div class="detail-item">
+            <div class="detail-label">✉️ Email Address</div>
+            <div class="detail-value">${escapeHtml(email)}</div>
+          </div>
+        `;
+      }
+
+      if (hasValue(enrollment)) {
+        detailCardsHtml += `
+          <div class="detail-item">
+            <div class="detail-label">🎓 Enrollment Number</div>
+            <div class="detail-value">${escapeHtml(enrollment)}</div>
+          </div>
+        `;
+      }
+
+      if (hasValue(branch)) {
+        detailCardsHtml += `
+          <div class="detail-item">
+            <div class="detail-label">📚 Branch / Course</div>
+            <div class="detail-value">${escapeHtml(branch)}</div>
+          </div>
+        `;
+      }
+
+      if (hasValue(mobile)) {
+        detailCardsHtml += `
+          <div class="detail-item">
+            <div class="detail-label">📱 Mobile Number</div>
+            <div class="detail-value">${escapeHtml(mobile)}</div>
+          </div>
+        `;
+      }
+
+      if (hasValue(issuedBy)) {
+        detailCardsHtml += `
+          <div class="detail-item" style="grid-column: 1 / -1;">
+            <div class="detail-label">🏛️ Issuing Authority</div>
+            <div class="detail-value">${escapeHtml(issuedBy)}</div>
+          </div>
+        `;
+      }
+
+      resultContainer.innerHTML = `
+        <div class="verified-badge-container">
+          <div class="shield-icon">
+            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+          <div class="verified-header-text">
+            <div class="status-label">Certificate Verified</div>
+            <div class="status-sub">Official Authentic Credential</div>
+          </div>
+        </div>
+
+        ${hasValue(eventTitle) ? `
+        <div class="event-title-banner">
+          <span>${escapeHtml(eventTitle)}</span>
+          <span class="event-title-badge">VERIFIED RECORD</span>
+        </div>` : ''}
+
+        <div class="details-grid">
+          ${detailCardsHtml}
+        </div>
+
+        <div class="actions-row">
+          <button class="action-btn" onclick="copyVerificationLink()">
+            <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+            </svg>
+            Copy Verification Link
+          </button>
+        </div>
+      `;
+    }
+
+    function renderInvalidState(rawRef) {
+      resultContainer.innerHTML = `
+        <div class="invalid-badge-container">
+          <div class="invalid-icon">
+            <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </div>
+          <div class="invalid-text">
+            <div class="status-label">Invalid Certificate</div>
+            <div class="status-sub">No matching record found in registry</div>
+          </div>
+        </div>
+
+        <div class="invalid-info">
+          <p style="margin-bottom: 8px;">We could not verify the certificate with Reference ID: <strong style="color: #ef4444; font-family: monospace;">${escapeHtml(rawRef)}</strong></p>
+          <ul style="padding-left: 20px; font-size: 0.82rem; line-height: 1.6;">
+            <li>Please double check the spelling and hyphens in the Reference ID.</li>
+            <li>Ensure you are entering the full reference code (e.g. <code>CFI-310126-002-LWL48G0</code> or <code>IBF-030426-001-1RUBWP1</code>).</li>
+            <li>If you believe this is an error, please contact Innovation & DIY Club support.</li>
+          </ul>
+        </div>
+      `;
+    }
+
+    async function performVerification(rawRef) {
+      const cleanedRef = rawRef.trim();
+      if (!cleanedRef) {
+        renderInitialState();
+        return;
+      }
+
+      const newUrl = window.location.pathname + '?ref=' + encodeURIComponent(cleanedRef);
+      window.history.replaceState({ ref: cleanedRef }, '', newUrl);
+      certInput.value = cleanedRef;
+
+      renderLoadingState(cleanedRef);
+
+      try {
+        // Step 1: Query Central Apps Script Endpoint
+        const apiUrl = CENTRAL_API_ENDPOINT + "?ref=" + encodeURIComponent(cleanedRef);
+        const response = await fetch(apiUrl);
+        if (response.ok) {
+          const data = await response.json();
+          if (data && data.status === "VALID") {
+            renderVerifiedState(data);
+            return;
+          }
+        }
+
+        // Step 2: Try CFI fallback candidates if applicable
+        const candidates = buildRefCandidates(cleanedRef);
+        for (const candidateRef of candidates) {
+          if (candidateRef === cleanedRef) continue;
+          const candUrl = CENTRAL_API_ENDPOINT + "?ref=" + encodeURIComponent(candidateRef);
+          const candRes = await fetch(candUrl);
+          if (candRes.ok) {
+            const candData = await candRes.json();
+            if (candData && candData.status === "VALID") {
+              renderVerifiedState(candData);
+              return;
+            }
+          }
+        }
+
+        // Step 3: Firebase Firestore Fallback
+        if (window.checkFirestoreCertificate) {
+          const firestoreData = await window.checkFirestoreCertificate(cleanedRef);
+          if (firestoreData) {
+            renderVerifiedState(firestoreData);
+            return;
+          }
+        }
+
+        // Step 4: Local JSON Fallback
+        try {
+          const localRes = await fetch('data.json');
+          if (localRes.ok) {
+            const localList = await localRes.json();
+            const found = localList.find(item => item.id.toUpperCase() === cleanedRef.toUpperCase());
+            if (found) {
+              renderVerifiedState({
+                status: "VALID",
+                ref: found.id,
+                name: found.name,
+                eventName: found.event,
+                role: found.role,
+                email: found.email,
+                issuedBy: found.issuedBy
+              });
+              return;
+            }
+          }
+        } catch (e) { }
+
+        // If all attempts failed
+        renderInvalidState(cleanedRef);
+
+      } catch (error) {
+        console.error("Verification error:", error);
+        renderInvalidState(cleanedRef);
+      }
+    }
+
+    window.copyVerificationLink = function () {
+      const currentUrl = window.location.href;
+      navigator.clipboard.writeText(currentUrl).then(() => {
+        showToast("Verification link copied to clipboard!");
+      }).catch(() => {
+        showToast("Failed to copy link.");
+      });
+    };
+
+    searchForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const val = certInput.value.trim();
+      if (val) {
+        performVerification(val);
+      }
+    });
+
+    window.addEventListener("DOMContentLoaded", function () {
+      const urlParams = new URLSearchParams(window.location.search);
+      const targetId = urlParams.get("ref") || urlParams.get("id") || urlParams.get("cert") || urlParams.get("certificateId");
+
+      if (targetId && targetId.trim()) {
+        performVerification(targetId.trim());
+      } else {
+        renderInitialState();
+      }
+    });
+  </script>
 </body>
+
 </html>

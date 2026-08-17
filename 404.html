@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Redirecting to Verification Portal...</title>
+  <script>
+    (function() {
+      const url = new URL(window.location.href);
+      const targetId = url.searchParams.get("id") || url.searchParams.get("ref") || url.searchParams.get("certificateId") || url.searchParams.get("cert");
+      
+      let pathSegments = url.pathname.split('/').filter(Boolean);
+      let rootPath = './';
+      if (pathSegments.length > 0) {
+        rootPath = '/' + pathSegments[0] + '/';
+      }
+
+      if (targetId && targetId.trim()) {
+        window.location.replace(rootPath + '?ref=' + encodeURIComponent(targetId.trim()));
+      } else {
+        window.location.replace(rootPath);
+      }
+    })();
+  </script>
+  <style>
+    body {
+      background: #0b0f19;
+      color: #fff;
+      font-family: system-ui, -apple-system, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <p>Redirecting to Certificate Verification Portal...</p>
+</body>
+</html>
