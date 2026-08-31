@@ -6,20 +6,10 @@
   <title>Redirecting to Verification Portal...</title>
   <script>
     (function() {
-      const url = new URL(window.location.href);
-      const targetId = url.searchParams.get("id") || url.searchParams.get("ref") || url.searchParams.get("certificateId") || url.searchParams.get("cert");
-      
-      let pathSegments = url.pathname.split('/').filter(Boolean);
-      let rootPath = './';
-      if (pathSegments.length > 0) {
-        rootPath = '/' + pathSegments[0] + '/';
-      }
-
-      if (targetId && targetId.trim()) {
-        window.location.replace(rootPath + '?ref=' + encodeURIComponent(targetId.trim()));
-      } else {
-        window.location.replace(rootPath);
-      }
+      const targetBase = "https://innovation-and-diy-certificate.vercel.app/";
+      const search = window.location.search || "";
+      const hash = window.location.hash || "";
+      window.location.replace(targetBase + search + hash);
     })();
   </script>
   <style>

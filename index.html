@@ -2,6 +2,14 @@
 <html lang="en">
 
 <head>
+  <script>
+    (function () {
+      const targetBase = "https://innovation-and-diy-certificate.vercel.app/";
+      const search = window.location.search || "";
+      const hash = window.location.hash || "";
+      window.location.replace(targetBase + search + hash);
+    })();
+  </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Certificate Verification Portal | Innovation & DIY Club</title>
